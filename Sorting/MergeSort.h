@@ -27,9 +27,9 @@ void mergeSort(const Iterator begin, const Iterator end)
     if (begin < end - 1)
     {
         const auto size = (end - begin) / 2;
-        const Iterator split = begin + size;
-        mergeSort(begin, split);
-        mergeSort(split, end);
+        const Iterator median = begin + size;
+        mergeSort(begin, median);
+        mergeSort(median, end);
 
         const Iterator beginLeft = new typename std::iterator_traits<Iterator>::value_type[size];
         const Iterator endLeft = beginLeft + size;
@@ -39,7 +39,7 @@ void mergeSort(const Iterator begin, const Iterator end)
         }
 
         Iterator itLeft = beginLeft;
-        Iterator itRight = split;
+        Iterator itRight = median;
         for (Iterator next = begin; itLeft < endLeft; ++next)
         {
             if (itRight < end && *itRight < *itLeft)

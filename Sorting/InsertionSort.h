@@ -25,7 +25,7 @@ void insertionSort(const Iterator begin, const Iterator end)
     {
         Iterator it = next;
         auto temp = *it;
-        for (; it > begin&& temp < *(it - 1); --it)
+        for (; it > begin && temp < *(it - 1); --it)
         {
             *it = *(it - 1);
         }

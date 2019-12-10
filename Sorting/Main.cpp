@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "Random.h"
+#include "QuickSort.h"
 #include "MergeSort.h"
 #include "BubbleSort.h"
 #include "InsertionSort.h"
@@ -17,9 +18,9 @@
 // of the contiguous list.
 
 
-const uint32_t m_size = 10000000U;
+const uint32_t m_size = 100000U;
 
-int m_unsorted[m_size];
+int m_list[m_size];
 int m_toSort[m_size];
 const int m_min = 0;
 const int m_max = 1000;
@@ -41,20 +42,29 @@ bool isSorted()
 }
 
 
-void generateUnsorted()
+void generateSorted()
 {
     for (uint32_t i = 0; i < m_size; ++i)
     {
-        m_unsorted[i] = random::integer(m_min, m_max);
+        m_list[i] = i;
     }
 }
 
 
-void copyUnsorted()
+void generateUnsorted()
 {
     for (uint32_t i = 0; i < m_size; ++i)
     {
-        m_toSort[i] = m_unsorted[i];
+        m_list[i] = random::integer(m_min, m_max);
+    }
+}
+
+
+void resetToSort()
+{
+    for (uint32_t i = 0; i < m_size; ++i)
+    {
+        m_toSort[i] = m_list[i];
     }
 }
 
@@ -62,19 +72,20 @@ void copyUnsorted()
 template<typename Iterator>
 void evaluateAlgorithm(const std::string name, void (*function)(Iterator, Iterator))
 {
-    copyUnsorted();
+    resetToSort();
 
+    std::wcout << name.c_str() << ": ";
     auto start = std::chrono::system_clock::now();
     function(m_toSort, m_toSort + m_size);
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start).count();
 
     if (isSorted())
     {
-        std::wcout << name.c_str() << ": " << milliseconds << "ms" << std::endl;
+        std::wcout << milliseconds << "ms" << std::endl;
     }
     else
     {
-        std::wcout << name.c_str() << ": Failed to sort list" << std::endl;
+        std::wcout << "Failed to sort list" << std::endl;
     }
 }
 
@@ -84,8 +95,15 @@ int main(int argc, char* argv[])
     random::initialize();
     generateUnsorted();
 
+    // Divide and Conquer algorithms
+    evaluateAlgorithm("Quick Sort", quickSort<int*>);
     evaluateAlgorithm("Merge Sort", mergeSort<int*>);
-    evaluateAlgorithm("Bubble Sort", bubbleSort<int*>);
-    evaluateAlgorithm("Insertion Sort", insertionSort<int*>);
+
+    // Standard algorithms
     evaluateAlgorithm("Standard Sort", std::sort<int*>);
+    evaluateAlgorithm("Standard Stable Sort", std::stable_sort<int*>);
+
+    // Simple algorithms
+    evaluateAlgorithm("Insertion Sort", insertionSort<int*>);
+    evaluateAlgorithm("Bubble Sort", bubbleSort<int*>);
 }
