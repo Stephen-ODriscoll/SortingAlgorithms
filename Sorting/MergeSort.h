@@ -15,10 +15,10 @@
 //         [4, 5] |  1, 2, 3, 4, 3
 //          ^     |           "
 //         [4, 5] |  1, 2, 3, 4, 5
-//          ^                    "
+//             ^  |              "
 //
 // Note: I've seen other merge sort algorithms copy both left and right halves. This isn't necessary.
-//       We can use the right side directly in the list we're sorting. If we get to the end of the left list copy
+//       We can use the right side directly in the list we're sorting. If we get to the end of the copied left list
 //       before the end of the right list we're done as the rest of the right elements are in the list already sorted.
 //       If we get to the end of the right list first we can override the rest of the right list with the left copy.
 template<typename Iterator>
@@ -26,7 +26,7 @@ void mergeSort(const Iterator begin, const Iterator end)
 {
     if (begin < end - 1)
     {
-        const uint32_t size = (end - begin) / 2;
+        const auto size = (end - begin) / 2;
         const Iterator split = begin + size;
         mergeSort(begin, split);
         mergeSort(split, end);
@@ -40,8 +40,7 @@ void mergeSort(const Iterator begin, const Iterator end)
 
         Iterator itLeft = beginLeft;
         Iterator itRight = split;
-        Iterator next = begin;
-        for (; itLeft < endLeft; ++next)
+        for (Iterator next = begin; itLeft < endLeft; ++next)
         {
             if (itRight < end && *itRight < *itLeft)
             {
