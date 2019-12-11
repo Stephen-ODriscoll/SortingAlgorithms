@@ -3,19 +3,21 @@
 // Example showing splits and merges:
 //      left copy | list(5, 4, 3, 2, 1)
 //      -------------------------------
-//             -  |  [5, 4] [3, 2, 1]
-//             -  |  [4, 5] [1, 2, 3]    (recursively sorted)
-//             -  |  4, 5, 1, 2, 3
-//         [4, 5] |  1, 5, 1, 2, 3
+//            -   |  [5, 4] [3, 2, 1]    (recursively sorted)
+//                |
+//            -   |  [4, 5] [1, 2, 3]
+//                |
+//          4, 5  |  1, 5, 1, 2, 3
 //          ^     |  "     ^
-//         [4, 5] |  1, 2, 1, 2, 3
+//          4, 5  |  1, 2, 1, 2, 3
 //          ^     |     "     ^
-//         [4, 5] |  1, 2, 3, 2, 3       (We're done with right side, insert the rest of left side)
+//          4, 5  |  1, 2, 3, 2, 3       (We're done with right side, insert the rest of left side)
 //          ^     |        "     ^
-//         [4, 5] |  1, 2, 3, 4, 3
+//          4, 5  |  1, 2, 3, 4, 3
 //          ^     |           "
-//         [4, 5] |  1, 2, 3, 4, 5
+//          4, 5  |  1, 2, 3, 4, 5
 //             ^  |              "
+//          4, 5  |  1, 2, 3, 4, 5
 //
 // Note: I've seen other merge sort algorithms copy both left and right halves. This isn't necessary.
 //       We can use the right side directly in the list we're sorting. If we get to the end of the copied left list

@@ -13,9 +13,9 @@
 // Created by Stephen O Driscoll.
 // This program demonstrates various sorting algorithms and my implementation of them.
 
-// The requirements I've set out for myself are that each function takes in two generic constant iterators.
-// Each algorithm must sort the lists using these iterators (pointers), one to the start and the other the end
-// of the contiguous list.
+// The requirements I've set out for myself are that each algorithm takes in two generic constant iterators.
+// Each algorithm must sort the lists using these iterators (pointers), one to the start and one to the end
+// of the contiguous list. All algorithms should only require the < and = operators.
 
 
 const uint32_t m_size = 100000U;
@@ -32,7 +32,7 @@ bool isSorted()
 {
     for (uint32_t i = 0; i < m_size - 1; ++i)
     {
-        if (m_toSort[i] > m_toSort[i + 1])
+        if (m_toSort[i + 1] < m_toSort[i])
         {
             return false;
         }

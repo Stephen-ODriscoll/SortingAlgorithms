@@ -17,7 +17,7 @@ namespace random
 
     static inline int integer(const int rangeLower, const int rangeHigher)
     {
-        if (rangeLower >= rangeHigher)
+        if (rangeHigher <= rangeLower)
         {
             throw std::exception("higher end of range must be larger than lower end");
         }
