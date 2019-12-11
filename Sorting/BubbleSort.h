@@ -23,7 +23,7 @@ void bubbleSort(const Iterator begin, const Iterator end)
     {
         swapOcccured = false;
 
-        for (Iterator it = begin + 1; it < done; ++it)
+        for (Iterator it = (begin + 1); it < done; ++it)
         {
             if (*it < *(it - 1))
             {

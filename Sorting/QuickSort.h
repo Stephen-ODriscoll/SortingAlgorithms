@@ -31,7 +31,7 @@ void quickSort(const Iterator begin, const Iterator end)
 
         Iterator itLeft = begin;
         Iterator itRight = (last - 1);
-        while(true)
+        while (true)
         {
             while (*itLeft < pivot)
             {

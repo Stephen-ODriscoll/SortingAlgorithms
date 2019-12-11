@@ -21,7 +21,7 @@ template<typename Iterator>
 void insertionSort(const Iterator begin, const Iterator end)
 {
     // Everything left of next is already sorted
-    for (Iterator next = begin + 1; next < end; ++next)
+    for (Iterator next = (begin + 1); next < end; ++next)
     {
         Iterator it = next;
         auto temp = *it;

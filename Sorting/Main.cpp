@@ -6,8 +6,9 @@
 #include "Random.h"
 #include "QuickSort.h"
 #include "MergeSort.h"
-#include "BubbleSort.h"
 #include "InsertionSort.h"
+#include "SelectionSort.h"
+#include "BubbleSort.h"
 
 
 // Created by Stephen O Driscoll.
@@ -105,5 +106,6 @@ int main(int argc, char* argv[])
 
     // Simple algorithms
     evaluateAlgorithm("Insertion Sort", insertionSort<int*>);
+    evaluateAlgorithm("Selection Sort", selectionSort<int*>);
     evaluateAlgorithm("Bubble Sort", bubbleSort<int*>);
 }
