@@ -6,9 +6,12 @@
 #include "Random.h"
 #include "QuickSort.h"
 #include "MergeSort.h"
+#include "HeapSort.h"
+#include "IntroSort.h"
+#include "TimSort.h"
 #include "InsertionSort.h"
-#include "SelectionSort.h"
 #include "BubbleSort.h"
+#include "SelectionSort.h"
 
 
 // Created by Stephen O Driscoll.
@@ -99,6 +102,11 @@ int main(int argc, char* argv[])
     // Divide and Conquer algorithms
     evaluateAlgorithm("Quick Sort", quickSort<int*>);
     evaluateAlgorithm("Merge Sort", mergeSort<int*>);
+    evaluateAlgorithm("Heap Sort", heapSort<int*>);
+
+    // Hybrid algorithms
+    evaluateAlgorithm("Intro Sort", introSort<int*>);
+    evaluateAlgorithm("Tim Sort", timSort<int*>);
 
     // Standard algorithms
     evaluateAlgorithm("Standard Sort", std::sort<int*>);
@@ -106,6 +114,6 @@ int main(int argc, char* argv[])
 
     // Simple algorithms
     evaluateAlgorithm("Insertion Sort", insertionSort<int*>);
-    evaluateAlgorithm("Selection Sort", selectionSort<int*>);
     evaluateAlgorithm("Bubble Sort", bubbleSort<int*>);
+    evaluateAlgorithm("Selection Sort", selectionSort<int*>);
 }

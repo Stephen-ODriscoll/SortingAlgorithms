@@ -1,5 +1,36 @@
 #pragma once
 
+template<typename Iterator>
+void merge(const Iterator begin, const Iterator median, const Iterator end)
+{
+    uint64_t size = (median - begin);
+    const Iterator beginLeft = new typename std::iterator_traits<Iterator>::value_type[size];
+    const Iterator endLeft = beginLeft + size;
+    for (Iterator next = begin, it = beginLeft; it < endLeft; ++it, ++next)
+    {
+        *it = *next;
+    }
+
+    Iterator itLeft = beginLeft;
+    Iterator itRight = median;
+    for (Iterator next = begin; itLeft < endLeft; ++next)
+    {
+        if (itRight < end && *itRight < *itLeft)
+        {
+            *next = *itRight;
+            ++itRight;
+        }
+        else
+        {
+            *next = *itLeft;
+            ++itLeft;
+        }
+    }
+
+    delete[] beginLeft;
+}
+
+
 // Example showing splits and merges:
 //      left copy | list(5, 4, 3, 2, 1)
 //      -------------------------------
@@ -28,34 +59,10 @@ void mergeSort(const Iterator begin, const Iterator end)
 {
     if (begin < end - 1)
     {
-        const auto size = (end - begin) / 2;
-        const Iterator median = begin + size;
+        const Iterator median = begin + ((end - begin) / 2);
         mergeSort(begin, median);
         mergeSort(median, end);
 
-        const Iterator beginLeft = new typename std::iterator_traits<Iterator>::value_type[size];
-        const Iterator endLeft = beginLeft + size;
-        for (Iterator next = begin, it = beginLeft; it < endLeft; ++it, ++next)
-        {
-            *it = *next;
-        }
-
-        Iterator itLeft = beginLeft;
-        Iterator itRight = median;
-        for (Iterator next = begin; itLeft < endLeft; ++next)
-        {
-            if (itRight < end && *itRight < *itLeft)
-            {
-                *next = *itRight;
-                ++itRight;
-            }
-            else
-            {
-                *next = *itLeft;
-                ++itLeft;
-            }
-        }
-
-        delete[] beginLeft;
+        merge(begin, median, end);
     }
 }

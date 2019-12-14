@@ -1,5 +1,48 @@
 #pragma once
 
+template<typename Iterator>
+Iterator partition(const Iterator begin, const Iterator end)
+{
+    const Iterator last = (end - 1);
+    const Iterator median = begin + ((end - begin) / 2);
+
+    auto pivot = *median;
+    *median = *last;
+    *last = pivot;
+
+    Iterator itLeft = begin;
+    Iterator itRight = (last - 1);
+    while (true)
+    {
+        while (*itLeft < pivot)
+        {
+            ++itLeft;
+        }
+
+        while (pivot < *itRight)
+        {
+            --itRight;
+        }
+
+        if (itRight < itLeft)
+        {
+            break;
+        }
+
+        auto temp = *itRight;
+        *itRight = *itLeft;
+        *itLeft = temp;
+
+        ++itLeft, --itRight;
+    }
+
+    *last = *itLeft;
+    *itLeft = pivot;
+
+    return itLeft;
+}
+
+
 // Example showing splits and merges:
 //      pivot | list(5, 4, 3, 2, 1)
 //      ---------------------------
@@ -21,44 +64,11 @@
 template<typename Iterator>
 void quickSort(const Iterator begin, const Iterator end)
 {
-    const Iterator last = end - 1;
-    if (begin < last)
+    if (begin < (end - 1))
     {
-        Iterator median = begin + ((end - begin) / 2);
-        auto pivot = *median;
-        *median = *last;
-        *last = pivot;
+        Iterator split = partition(begin, end);
 
-        Iterator itLeft = begin;
-        Iterator itRight = (last - 1);
-        while (true)
-        {
-            while (*itLeft < pivot)
-            {
-                ++itLeft;
-            }
-
-            while (pivot < *itRight)
-            {
-                --itRight;
-            }
-
-            if (itRight < itLeft)
-            {
-                break;
-            }
-            
-            auto temp = *itRight;
-            *itRight = *itLeft;
-            *itLeft = temp;
-
-            ++itLeft, --itRight;
-        }
-        
-        *last = *itLeft;
-        *itLeft = pivot;
- 
-        quickSort(begin, itLeft);
-        quickSort((itLeft + 1), end);
+        quickSort(begin, split);
+        quickSort((split + 1), end);
     }
 }

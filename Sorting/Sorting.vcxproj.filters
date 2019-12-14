@@ -38,5 +38,14 @@
     <ClInclude Include="SelectionSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeapSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -127,11 +127,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleSort.h" />
+    <ClInclude Include="HeapSort.h" />
     <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="IntroSort.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="TimSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
