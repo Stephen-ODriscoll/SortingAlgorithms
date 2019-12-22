@@ -1,32 +1,24 @@
 #pragma once
 
+// This optimized variant of sift down assumes the top number belongs somewhere at the bottom
 template<typename Iterator>
-void siftDown(const Iterator begin, const Iterator end, int64_t index = 0)
+void siftDown(const Iterator begin, const Iterator end)
 {
-    Iterator it = begin + index;
-    Iterator itLeft = it + (index + 1);
-    Iterator itRight = it + (index + 2);
+    int64_t index = 0;
+    Iterator it = begin;
+    Iterator itLeft = begin + 1;
+    Iterator itRight = begin + 2;
     while (itLeft < end)
     {
         auto temp = *it;
-        if (*itLeft < *itRight && itRight < end)
+        if (itRight < end && *itLeft < *itRight)
         {
-            if (*itRight < *it)
-            {
-                break;
-            }
-
-            index = (index * 2) + 2;
+            index = (index * 2) + 1;
             *it = *itRight;
             it = itRight;
         }
         else
         {
-            if (*itLeft < *it)
-            {
-                break;
-            }
-
             index = (index * 2) + 1;
             *it = *itLeft;
             it = itLeft;
@@ -35,6 +27,58 @@ void siftDown(const Iterator begin, const Iterator end, int64_t index = 0)
         *it = temp;
         itLeft = it + (index + 1);
         itRight = it + (index + 2);
+    }
+}
+
+
+template<typename Iterator>
+void heapify(const Iterator begin, const Iterator end)
+{
+    int64_t indexUp = (((end - begin) - 2) / 2);
+    Iterator itUp = begin + indexUp;
+    Iterator itLeftUp = itUp + (indexUp + 1);
+    Iterator itRightUp = itLeftUp + 1;
+    while (begin <= itUp)
+    {
+        int64_t indexDown = indexUp;
+        Iterator itDown = itUp;
+        Iterator itLeftDown = itLeftUp;
+        Iterator itRightDown = itRightUp;
+        while (itLeftDown < end)
+        {
+            auto temp = *itDown;
+            if (itRightDown < end && *itLeftDown < *itRightDown)
+            {
+                if (*itRightDown < *itDown)
+                {
+                    break;
+                }
+
+                indexDown = (indexDown * 2) + 1;
+                *itDown = *itRightDown;
+                itDown = itRightDown;
+            }
+            else
+            {
+                if (*itLeftDown < *itDown)
+                {
+                    break;
+                }
+
+                indexDown = (indexDown * 2) + 1;
+                *itDown = *itLeftDown;
+                itDown = itLeftDown;
+            }
+
+            *itDown = temp;
+            itLeftDown = itDown + (indexDown + 1);
+            itRightDown = itDown + (indexDown + 2);
+        }
+
+        --indexUp;
+        --itUp;
+        itLeftUp -= 2;
+        itRightUp -= 2;
     }
 }
 
@@ -69,12 +113,9 @@ void heapSort(const Iterator begin, const Iterator end)
     Iterator last = (end - 1);
     if (begin < last)
     {
-        for (int64_t index = ((last - begin) / 2); -1 < index; --index)
-        {
-            siftDown(begin, end, index);
-        }
+        heapify(begin, end);
 
-        for (; begin < last; --last)
+        for (; (begin + 2) < last; --last)
         {
             auto temp = *last;
             *last = *begin;
