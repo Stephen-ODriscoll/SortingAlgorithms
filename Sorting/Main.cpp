@@ -17,9 +17,10 @@
 // Created by Stephen O Driscoll.
 // This program demonstrates various sorting algorithms and my implementation of them.
 
-// The requirements I've set out for myself are that each algorithm takes in two generic constant iterators.
-// Each algorithm must sort the lists using these iterators (pointers), one to the start and one to the end
-// of the contiguous list. All algorithms should only require the < and = operators.
+// The requirements I've set out for myself are that each algorithm takes in two constant template iterators;
+// one to the start and one to the end of the contiguous list.
+// Each algorithm must sort the list using these iterators.
+// Algorithms should only require the < and = operators to sort.
 
 
 const uint32_t m_size = 100000U;
@@ -46,6 +47,7 @@ bool isSorted()
 }
 
 
+// Generate sorted list of length m_size. List will look like: 0, 1, 2, 3, 4, ect. 
 void generateSorted()
 {
     for (uint32_t i = 0; i < m_size; ++i)
@@ -55,6 +57,7 @@ void generateSorted()
 }
 
 
+// Generate unsorted list of length m_size using m_min and m_max
 void generateUnsorted()
 {
     for (uint32_t i = 0; i < m_size; ++i)
@@ -64,6 +67,7 @@ void generateUnsorted()
 }
 
 
+// Copy original unsorted list into buffer for algorithm to sort
 void resetToSort()
 {
     for (uint32_t i = 0; i < m_size; ++i)
@@ -73,6 +77,7 @@ void resetToSort()
 }
 
 
+// Takes in function name and method signature and evaluates how long it takes to sort
 template<typename Iterator>
 void evaluateAlgorithm(const std::string name, void (*function)(Iterator, Iterator))
 {
@@ -108,7 +113,7 @@ int main(int argc, char* argv[])
     evaluateAlgorithm("Intro Sort", introSort<int*>);
     evaluateAlgorithm("Tim Sort", timSort<int*>);
 
-    // Standard algorithms
+    // Standard C++ algorithms
     evaluateAlgorithm("Standard Sort", std::sort<int*>);
     evaluateAlgorithm("Standard Stable Sort", std::stable_sort<int*>);
 
