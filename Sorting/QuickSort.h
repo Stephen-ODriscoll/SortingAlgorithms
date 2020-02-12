@@ -12,21 +12,26 @@ Iterator partition(const Iterator begin, const Iterator end)
 
     Iterator itLeft = begin;
     Iterator itRight = (last - 1);
-    while (true)
+    while (!(itRight < itLeft))
     {
         while (*itLeft < pivot)
         {
             ++itLeft;
+
+            if (itRight < itLeft)
+            {
+                goto done;
+            }
         }
 
         while (pivot < *itRight)
         {
             --itRight;
-        }
 
-        if (itRight < itLeft)
-        {
-            break;
+            if (itRight < itLeft)
+            {
+                goto done;
+            }
         }
 
         auto temp = *itRight;
@@ -36,6 +41,7 @@ Iterator partition(const Iterator begin, const Iterator end)
         ++itLeft, --itRight;
     }
 
+done:
     *last = *itLeft;
     *itLeft = pivot;
 

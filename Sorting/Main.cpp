@@ -27,6 +27,7 @@ const uint32_t m_size = 100000U;
 
 int m_list[m_size];
 int m_toSort[m_size];
+int m_sorted[m_size];
 const int m_min = 0;
 const int m_max = 1000;
 
@@ -35,9 +36,9 @@ const int m_max = 1000;
 // I left this in for when I'm testing new variants.
 bool isSorted()
 {
-    for (uint32_t i = 0; i < m_size - 1; ++i)
+    for (uint32_t i = 0; i < m_size; ++i)
     {
-        if (m_toSort[i + 1] < m_toSort[i])
+        if (m_toSort[i] != m_sorted[i])
         {
             return false;
         }
@@ -53,6 +54,7 @@ void generateSorted()
     for (uint32_t i = 0; i < m_size; ++i)
     {
         m_list[i] = i;
+        m_sorted[i] = i;
     }
 }
 
@@ -63,7 +65,10 @@ void generateUnsorted()
     for (uint32_t i = 0; i < m_size; ++i)
     {
         m_list[i] = random::integer(m_min, m_max);
+        m_sorted[i] = m_list[i];
     }
+
+    std::sort(m_sorted, m_sorted + m_size);
 }
 
 
@@ -83,18 +88,25 @@ void evaluateAlgorithm(const std::string name, void (*function)(Iterator, Iterat
 {
     resetToSort();
 
-    std::wcout << name.c_str() << ": ";
+    std::cout << name.c_str() << ": ";
     auto start = std::chrono::system_clock::now();
     function(m_toSort, m_toSort + m_size);
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start).count();
 
     if (isSorted())
     {
-        std::wcout << milliseconds << "ms" << std::endl;
+        std::cout << milliseconds << "ms" << std::endl;
     }
     else
     {
-        std::wcout << "Failed to sort list" << std::endl;
+        std::cout << "Failed to sort list" << std::endl;
+
+         for(uint32_t i = 0; i < m_size; ++i)
+         {
+             std::cout << m_toSort[i] << " ";
+         }
+
+         std::cout << std::endl;
     }
 }
 
