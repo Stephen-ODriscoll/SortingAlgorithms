@@ -12,7 +12,7 @@ Iterator partition(const Iterator begin, const Iterator end)
 
     Iterator itLeft = begin;
     Iterator itRight = (last - 1);
-    while (!(itRight < itLeft))
+    while (itLeft <= itRight)
     {
         while (*itLeft < pivot)
         {
