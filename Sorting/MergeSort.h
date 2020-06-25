@@ -1,19 +1,17 @@
 #pragma once
 
 template<typename Iterator>
-void merge(const Iterator begin, const Iterator median, const Iterator end)
+void merge(const Iterator begin, const Iterator median, const Iterator end, const Iterator beginCopy)
 {
-    uint64_t size = (median - begin);
-    const Iterator beginLeft = new typename std::iterator_traits<Iterator>::value_type[size];
-    const Iterator endLeft = beginLeft + size;
-    for (Iterator next = begin, it = beginLeft; it < endLeft; ++it, ++next)
+    const Iterator endCopy = beginCopy + (median - begin);
+    for (Iterator next = begin, it = beginCopy; it < endCopy; ++it, ++next)
     {
         *it = *next;
     }
 
-    Iterator itLeft = beginLeft;
+    Iterator itLeft = beginCopy;
     Iterator itRight = median;
-    for (Iterator next = begin; itLeft < endLeft; ++next)
+    for (Iterator next = begin; itLeft < endCopy; ++next)
     {
         if (itRight < end && *itRight < *itLeft)
         {
@@ -26,8 +24,6 @@ void merge(const Iterator begin, const Iterator median, const Iterator end)
             ++itLeft;
         }
     }
-
-    delete[] beginLeft;
 }
 
 
@@ -54,15 +50,31 @@ void merge(const Iterator begin, const Iterator median, const Iterator end)
 //       We can use the right side directly in the list we're sorting. If we get to the end of the copied left list
 //       before the end of the right list we're done as the rest of the right elements are in the list already sorted.
 //       If we get to the end of the right list first we can override the rest of the right list with the left copy.
+
+template<typename Iterator>
+void mergeSort(const Iterator begin, const Iterator end, const Iterator beginCopy)
+{
+    if (begin < end - 1)
+    {
+        const Iterator median = begin + ((end - begin) / 2);
+
+        mergeSort(begin, median, beginCopy);
+        mergeSort(median, end, beginCopy);
+
+        merge(begin, median, end, beginCopy);
+    }
+}
+
+// Entry point that creates temporary memory and calls the above mergeSort
 template<typename Iterator>
 void mergeSort(const Iterator begin, const Iterator end)
 {
     if (begin < end - 1)
     {
-        const Iterator median = begin + ((end - begin) / 2);
-        mergeSort(begin, median);
-        mergeSort(median, end);
+        const Iterator beginCopy = new typename std::iterator_traits<Iterator>::value_type[(end - begin) / 2];
 
-        merge(begin, median, end);
+        mergeSort(begin, end, beginCopy);
+
+        delete[] beginCopy;
     }
 }
